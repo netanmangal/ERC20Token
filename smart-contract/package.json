@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "dotenv": "^16.0.0",
     "fs-extra": "^10.0.0",
     "mocha": "^9.2.0",
     "solc": "^0.8.11",
