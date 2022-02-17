@@ -5,10 +5,11 @@ const solc = require("solc");
 const buildPath = path.resolve(__dirname, "build");
 fs.removeSync(buildPath);
 
-const contractFile = "";
+const contractFile = "ERC20Token.sol";
 
 const contractPath = path.resolve(__dirname, "contracts", contractFile);
 const source = fs.readFileSync(contractPath, "utf-8");
+console.log(source)
 
 const input = {
     language: "Solidity",
@@ -27,6 +28,7 @@ const input = {
 };
 
 const output = JSON.parse(solc.compile(JSON.stringify(input)));
+console.log(output)
 
 fs.ensureDirSync(buildPath);
 for (var contractName in output.contracts[contractFile]) {
