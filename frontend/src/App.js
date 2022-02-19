@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import {ToastContainer, toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import logo from './logo.svg';
 import './App.css';
@@ -13,61 +15,49 @@ function App() {
   let [mintTokens, setMintTokens] = useState();
   let [transferTo, setTransferTo] = useState();
   let [transferAmount, setTransferAmount] = useState();
-  let [message, setMessage] = useState();
 
   useEffect(async () => {
-    setMessage("Welcome");
+    toast.success("Welcome!!!");
     setAccounts( await web3.eth.getAccounts() );
     setTokenName( await contract.methods.name().call() );
     setTokenSymbol( await contract.methods.symbol().call() );
-
-    setTimeout(() => {
-      setMessage("");
-    }, 2000);
   }, []);
 
   const handleBalanceOf = async (event) => {
     event.preventDefault();
 
-    setMessage("Finding Balance...");
+    toast("Finding Balance...");
 
     const response = await contract.methods.balanceOf(balanceOfAddress).call();
     console.log(response);
 
-    setMessage(`Balance of address ${balanceOfAddress} is ${response}`);
-    setTimeout(() => {
-      setMessage("");
-    }, 2000);
+    toast.success(`Balance of address ${balanceOfAddress} is ${response}`, {
+      style: {fontSize: "0.7rem"}
+    });
   }
 
   const handleMint = async (event) => {
     event.preventDefault();
 
-    setMessage("Minting in process...");
+    toast("Minting in process...");
 
     const response = await contract.methods.mint(accounts[0], mintTokens)
       .send({from: accounts[0], gas: 1000000});
     console.log(response);
 
-    setMessage("Txn completed");
-    setTimeout(() => {
-      setMessage("");
-    }, 2000);
+    toast.success("Txn completed");
   }
 
   const handleTransferTo = async (event) => {
     event.preventDefault();
 
-    setMessage("Transfer in process...");
+    toast("Transfer in process...");
 
     const response = await contract.methods.transfer(transferTo, transferAmount)
       .send({from: accounts[0], gas: 1000000});
     console.log(response);
 
-    setMessage("Txn completed");
-    setTimeout(() => {
-      setMessage("");
-    }, 2000);
+    toast.success("Txn completed");
   }
 
   return (
@@ -108,8 +98,10 @@ function App() {
           <button type='Submit'>Transfer</button>
         </form>
 
-        <p className="Msg">{message}</p>
-        <p>Made By: <a href="https://www.linkedin.com/in/netanmangal">Netan Mangal</a></p>
+        <p>
+          <ToastContainer style={{fontSize: "1rem", width: "30rem"}} position="bottom-right" theme="dark" autoClose={3000} />
+        </p>
+        <p style={{float: "right"}}>Made By: <a href="https://www.linkedin.com/in/netanmangal">Netan Mangal</a></p>
       </header>
     </div>
   );
