@@ -64,7 +64,7 @@ function App() {
     <div className="App">
       <div className="App-body">
         <img src={logo} className="App-logo" alt="logo" />
-        <h5>Made By: <a href="https://www.linkedin.com/in/netanmangal">Netan Mangal</a></h5>
+        <h5>Made By: <a href="https://www.linkedin.com/in/netanmangal" target="_blank" rel="noreferrer noopener">Netan Mangal</a></h5>
         <p>You are connected via address: <b>{accounts[0]}</b></p>
         <p>Contract address: <b>{contract.options.address}</b></p>
 
