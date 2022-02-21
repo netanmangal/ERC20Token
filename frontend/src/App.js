@@ -62,8 +62,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="App-body">
         <img src={logo} className="App-logo" alt="logo" />
+        <h5>Made By: <a href="https://www.linkedin.com/in/netanmangal">Netan Mangal</a></h5>
         <p>You are connected via address: <b>{accounts[0]}</b></p>
         <p>Contract address: <b>{contract.options.address}</b></p>
 
@@ -101,8 +102,7 @@ function App() {
         <p>
           <ToastContainer style={{fontSize: "1rem", width: "30rem"}} position="bottom-right" theme="dark" autoClose={3000} />
         </p>
-        <p style={{float: "right"}}>Made By: <a href="https://www.linkedin.com/in/netanmangal">Netan Mangal</a></p>
-      </header>
+      </div>
     </div>
   );
 }
