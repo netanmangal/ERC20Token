@@ -62,7 +62,9 @@ function App() {
   const handleMint = async (event) => {
     event.preventDefault();
 
-    toast("Minting in process...");
+    toast("Minting in process...", {
+      autoClose: 12000
+    });
 
     const response = await contract.methods.mint(accounts[0], mintTokens)
       .send({from: accounts[0], gas: 1000000});
@@ -74,7 +76,9 @@ function App() {
   const handleTransferTo = async (event) => {
     event.preventDefault();
 
-    toast("Transfer in process...");
+    toast("Transfer in process...", {
+      autoClose: 12000
+    });
 
     const response = await contract.methods.transfer(transferTo, transferAmount)
       .send({from: accounts[0], gas: 1000000});
