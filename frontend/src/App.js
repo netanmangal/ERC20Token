@@ -6,8 +6,10 @@ import logo from './logo.svg';
 import './App.css';
 import web3 from "./web3.js";
 import contract from "./contract.js";
+import Body from './components/body';
 
 function App() {
+  let [isMetamaskInstalled, setIsMetamaskInstalled] = useState(false);
   let [tokenName, setTokenName] = useState();
   let [tokenSymbol, setTokenSymbol] = useState();
   let [accounts, setAccounts] = useState([]);
@@ -16,11 +18,33 @@ function App() {
   let [transferTo, setTransferTo] = useState();
   let [transferAmount, setTransferAmount] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
     toast.success("Welcome!!!");
-    setAccounts( await web3.eth.getAccounts() );
-    setTokenName( await contract.methods.name().call() );
-    setTokenSymbol( await contract.methods.symbol().call() );
+
+    const init = async () => {
+      setAccounts( await web3.eth.getAccounts() );
+      setTokenName( await contract.methods.name().call() );
+      setTokenSymbol( await contract.methods.symbol().call() );
+    }
+
+    const checkMetamask = async () => {
+      if (typeof web3 !== 'undefined') {
+        if (web3.currentProvider.isMetaMask === true) {
+          setIsMetamaskInstalled(true);
+  
+          if (accounts.length == 0) {
+            await window.ethereum.enable();
+          }
+        } else {
+          toast.error("Kindly install metamask!!!");
+        }
+      } else {
+        toast.error("Kindly install metamask!!!");
+      }
+    }
+
+    init();
+    checkMetamask();
   }, []);
 
   const handleBalanceOf = async (event) => {
@@ -63,44 +87,12 @@ function App() {
   return (
     <div className="App">
       <div className="App-body">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img style={{marginTop: "50px"}} src={logo} className="App-logo" alt="logo" />
         <h5>Made By: <a href="https://www.linkedin.com/in/netanmangal" target="_blank" rel="noreferrer noopener">Netan Mangal</a></h5>
-        <p>You are connected via address: <b>{accounts[0]}</b></p>
-        <p>Contract address: <b>{contract.options.address}</b></p>
-
-        <hr></hr>
-
-        <h2>ERC-20 Token Details</h2>
-        <p>Name: {tokenName}</p>
-        <p>Symbol: {tokenSymbol}</p>
-
-        <hr></hr>
-
-        <h2>Mint tokens</h2>
-        <form onSubmit={handleMint}>
-          <input placeholder="How many tokens to mint?" type="text" onChange={(event) => {setMintTokens(event.target.value)}} /> <br />
-          <button type='Submit'>Mint</button>
-        </form>
-
-        <hr></hr>
-
-        <h2>Balance Of</h2>
-        <form onSubmit={handleBalanceOf}>
-          <input placeholder="Balance of Address" type="text" onChange={(event) => {setBalanceOfAddress(event.target.value)}} /> <br />
-          <button type="submit">Get me Balance</button>
-        </form>
-
-        <hr></hr>
-
-        <h2>Transfer To Utility</h2>
-        <form onSubmit={handleTransferTo}>
-          <input placeholder="TransferToAddress" type="text" onChange={(event) => {setTransferTo(event.target.value)}} /> <br />
-          <input placeholder="Amount (in ether)" type="text" onChange={(event) => {setTransferAmount(event.target.value)}} /> <br />
-          <button type='Submit'>Transfer</button>
-        </form>
+        <Body isMetamaskInstalled={isMetamaskInstalled} accounts={accounts} contract={contract} tokenName={tokenName} tokenSymbol={tokenSymbol} handleMint={handleMint} setMintTokens={setMintTokens} handleBalanceOf={handleBalanceOf} setBalanceOfAddress={setBalanceOfAddress} handleTransferTo={handleTransferTo} setTransferTo={setTransferTo} setTransferAmount={setTransferAmount} ToastContainer={ToastContainer} />
 
         <p>
-          <ToastContainer style={{fontSize: "1rem", width: "30rem"}} position="bottom-right" theme="dark" autoClose={3000} />
+          <ToastContainer style={{fontSize: "1rem", width: "30rem"}} position="top-right" theme="dark" autoClose={3000} />
         </p>
       </div>
     </div>
