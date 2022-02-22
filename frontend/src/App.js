@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 import web3 from "./web3.js";
 import contract from "./contract.js";
@@ -29,9 +29,9 @@ function App() {
 
     const checkMetamask = async () => {
       if (typeof web3 !== 'undefined') {
-        if (web3.currentProvider.isMetaMask === true) {
+        if (web3?.currentProvider?.isMetaMask === true) {
           setIsMetamaskInstalled(true);
-  
+          init();
           if (accounts.length == 0) {
             await window.ethereum.enable();
           }
@@ -43,7 +43,6 @@ function App() {
       }
     }
 
-    init();
     checkMetamask();
   }, []);
 
@@ -91,9 +90,7 @@ function App() {
         <h5>Made By: <a href="https://www.linkedin.com/in/netanmangal" target="_blank" rel="noreferrer noopener">Netan Mangal</a></h5>
         <Body isMetamaskInstalled={isMetamaskInstalled} accounts={accounts} contract={contract} tokenName={tokenName} tokenSymbol={tokenSymbol} handleMint={handleMint} setMintTokens={setMintTokens} handleBalanceOf={handleBalanceOf} setBalanceOfAddress={setBalanceOfAddress} handleTransferTo={handleTransferTo} setTransferTo={setTransferTo} setTransferAmount={setTransferAmount} ToastContainer={ToastContainer} />
 
-        <p>
-          <ToastContainer style={{fontSize: "1rem", width: "30rem"}} position="top-right" theme="dark" autoClose={3000} />
-        </p>
+        <ToastContainer style={{fontSize: "1rem", width: "30rem"}} position="top-right" theme="dark" autoClose={3000} />
       </div>
     </div>
   );

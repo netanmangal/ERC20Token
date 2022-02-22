@@ -1,7 +1,7 @@
 function Body ({isMetamaskInstalled, accounts, contract, tokenName, tokenSymbol, handleMint, setMintTokens, handleBalanceOf, setBalanceOfAddress, handleTransferTo, setTransferTo, setTransferAmount}) {
     if (isMetamaskInstalled) {
         return (
-            <div>
+            <div style={{paddingBottom: "50px"}}>
                 <p>You are connected via address: <b>{accounts[0]}</b></p>
                 <p>Contract address: <b>{contract.options.address}</b></p>
     
@@ -44,10 +44,10 @@ function Body ({isMetamaskInstalled, accounts, contract, tokenName, tokenSymbol,
         return (
             <div>
                 <h2>Install metamask</h2>
+                <a href="https://netanmangal.me/posts/introducing-metamask/" target="_blank" rel="noreferrer noopener">How to install Metamask.</a>
             </div>
         );
-    }
-    
+    } 
 }
 
 export default Body;
